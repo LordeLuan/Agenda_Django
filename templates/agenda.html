@@ -1,13 +1,20 @@
 {% extends "model-page.html" %}
 
 {% block content %}
-    <h3>Agendamentos</h3>
+    <h2>Agendamentos</h2>
+    <div align="left" style="font-size: 19px">
         <ul>
             {% for evento in eventos %}
-                <li>{{ evento.titulo }} - {{evento.getDataEvento }} </li>
+                <li>{{ evento.titulo }} - {{evento.getDataEvento }} - {{ evento.getDescricao }} </li>
             {% endfor %}
-
         </ul>
+        <br>
+        <a href="/agenda/evento">
+        <button type="button">Novo Evento</button>
+        </a>
+    </div>
+
+
 {% endblock %}
 
 

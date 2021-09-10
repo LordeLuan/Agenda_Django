@@ -16,3 +16,6 @@ class Evento (models.Model):
 
     def getDataEvento(self):
         return self.dataEvento.strftime('%d/%m/%Y %H:%M')
+
+    def getDescricao(self):
+        return self.descricao

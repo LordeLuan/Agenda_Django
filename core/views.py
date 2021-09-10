@@ -19,12 +19,27 @@ def logoutUser(request):
 @login_required(login_url='/login/')
 def listaEventos (request):
     usuario = request.user
-    evento = Evento.objects.filter(usuario=usuario)  #get(id=1) #all()
+    evento = Evento.objects.filter(usuario=usuario) #get(id=1) #all()
+    # if usuario == '0':
+    #     evento = Evento.objects.all()
     dados = {'eventos': evento}
     return render(request, 'agenda.html', dados)
 
+@login_required(login_url='/login/')
+def evento(request):
+    return render(request, 'evento.html')
 
-def submit(request):
+@login_required(login_url='/login/')
+def submitEvento(request):
+    if request.POST:
+        titulo = request.POST.get('titulo')
+        dataEvento = request.POST.get('dataEvento')
+        descricao = request.POST.get('descricao')
+        usuario = request.user
+        Evento.objects.create(titulo=titulo,dataEvento=dataEvento,descricao=descricao,usuario=usuario)
+    return redirect('/')
+
+def submitLogin(request):
     if request.POST:
         username = request.POST.get('username')
         password = request.POST.get('password')
