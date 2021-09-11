@@ -36,7 +36,8 @@ def submitEvento(request):
         dataEvento = request.POST.get('dataEvento')
         descricao = request.POST.get('descricao')
         usuario = request.user
-        Evento.objects.create(titulo=titulo,dataEvento=dataEvento,descricao=descricao,usuario=usuario)
+        local = request.POST.get('local')
+        Evento.objects.create(titulo=titulo,dataEvento=dataEvento,descricao=descricao,usuario=usuario,local=local)
     return redirect('/')
 
 def submitLogin(request):

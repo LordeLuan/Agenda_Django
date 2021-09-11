@@ -5,22 +5,26 @@
 
 <h2>Eventos</h2>
 <form action="submit" method="POST"> {% csrf_token %}
-<label>Titulo</label>
-<br>
-<input type="text" name="titulo" placeholder="Insira o titulo do evento" size="22">
-<br><br>
-<label>Data do evento</label>
-<br>
-<input type="datetime-local" name="dataEvento">
-<br><br>
-<label>Descrição</label>
-<br>
-<textarea name="descricao" rows="5" cols="24"></textarea>
-<br><br>
-<button type="submit">Salvar</button>
-<a href="/">
-    <button type="button">Cancelar</button>
-</a>
+    <label>Titulo</label>
+    <br>
+    <input type="text" name="titulo" placeholder="Insira o titulo do evento" size="22">
+    <br><br>
+    <label>Data do evento</label>
+    <br>
+    <input type="datetime-local" name="dataEvento">
+    <br><br>
+    <label>Local</label>
+    <br>
+    <input type="text" name="local" placeholder="Insira o local do evento" size="22">
+    <br><br>
+    <label>Descrição</label>
+    <br>
+    <textarea name="descricao" rows="5" cols="24"></textarea>
+    <br><br>
+    <button type="submit">Salvar</button>
+    <a href="/">
+        <button type="button">Cancelar</button>
+    </a>
 </form>
 
 {% endblock %}
