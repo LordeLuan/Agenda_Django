@@ -4,8 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages
 
-# Create your views here.
-
 # def index(request):
 #     return redirect('/agenda/')
 
@@ -20,14 +18,18 @@ def logoutUser(request):
 def listaEventos (request):
     usuario = request.user
     evento = Evento.objects.filter(usuario=usuario) #get(id=1) #all()
-    # if usuario == '0':
-    #     evento = Evento.objects.all()
+    #if usuario == "admin":
+    #  evento = Evento.objects.all()
     dados = {'eventos': evento}
     return render(request, 'agenda.html', dados)
 
 @login_required(login_url='/login/')
 def evento(request):
-    return render(request, 'evento.html')
+    idEvento = request.GET.get('id')
+    dados = {}
+    if idEvento:
+        dados['evento'] = Evento.objects.get(id=idEvento)
+    return render(request, 'evento.html',dados)
 
 @login_required(login_url='/login/')
 def submitEvento(request):
@@ -37,7 +39,25 @@ def submitEvento(request):
         descricao = request.POST.get('descricao')
         usuario = request.user
         local = request.POST.get('local')
-        Evento.objects.create(titulo=titulo,dataEvento=dataEvento,descricao=descricao,usuario=usuario,local=local)
+        idEvento = request.POST.get('idEvento')
+        if idEvento:
+            evento=Evento.objects.get(id=idEvento)
+            if evento.usuario == usuario:
+                evento.titulo = titulo
+                evento.dataEvento = dataEvento
+                evento.descricao = descricao
+                evento.local = local
+                evento.save()
+           # Evento.objects.filter(id=idEvento).update(titulo=titulo,descricao=descricao,dataEvento=dataEvento,local=local)
+        else:
+            Evento.objects.create(titulo=titulo,dataEvento=dataEvento,descricao=descricao,usuario=usuario,local=local)
+    return redirect('/')
+
+def deleteEvento(request,idEvento):
+    usuario = request.user
+    evento = Evento.objects.get(id=idEvento)
+    if usuario == evento.usuario:
+        evento.delete()
     return redirect('/')
 
 def submitLogin(request):

@@ -20,3 +20,6 @@ class Evento (models.Model):
 
     def getDescricao(self):
         return self.descricao
+
+    def getDataEventoUpdate(self):
+        return self.dataEvento.strftime('%Y-%m-%dT%H:%M')
