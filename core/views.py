@@ -1,8 +1,11 @@
+import django.http
 from django.shortcuts import render, HttpResponse,redirect
 from core.models import Evento
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages
+from datetime import datetime, timedelta
+from django.http.response import Http404, JsonResponse
 
 # def index(request):
 #     return redirect('/agenda/')
@@ -17,9 +20,11 @@ def logoutUser(request):
 @login_required(login_url='/login/')
 def listaEventos (request):
     usuario = request.user
-    evento = Evento.objects.filter(usuario=usuario) #get(id=1) #all()
-    #if usuario == "admin":
-    #  evento = Evento.objects.all()
+    dataAtual = datetime.now() - timedelta(hours=1)
+    evento = Evento.objects.filter(usuario=usuario,
+                                   dataEvento__gt= dataAtual) #get(id=1) #all()
+    # if usuario == 'lima':
+    #     evento = Evento.objects.all()
     dados = {'eventos': evento}
     return render(request, 'agenda.html', dados)
 
@@ -55,9 +60,13 @@ def submitEvento(request):
 
 def deleteEvento(request,idEvento):
     usuario = request.user
-    evento = Evento.objects.get(id=idEvento)
+    try:
+        evento = Evento.objects.get(id=idEvento)
+    except Exception:
+        raise Http404()
     if usuario == evento.usuario:
         evento.delete()
+        raise Http404()
     return redirect('/')
 
 def submitLogin(request):
@@ -71,3 +80,9 @@ def submitLogin(request):
         else:
             messages.error(request, "Usuário ou senha inválidos!")
     return redirect('/')
+
+# @login_required(login_url='/login/')
+# def listaEventoJson(request):
+#     usuario = request.user
+#     evento = Evento.objects.filter(usuario=usuario).values('id', 'titulo')
+#     return JsonResponse(list(evento), safe=False)

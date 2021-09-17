@@ -5,8 +5,14 @@
     <div align="left" style="font-size: 19px">
         <ul>
             {% for evento in eventos %}
-                <li>{{ evento.titulo }} - {{evento.getDataEvento }} - {{ evento.getDescricao }}
-                    (<a href="evento/?id={{evento.id}}">Editar</a> / <a href="evento/delete/{{evento.id}}/">Excluir</a>)
+                <li>
+                    <div style={% if evento.getEventoAtrasado %}
+                                         "color:red"
+                                        {% endif %}>
+                        {{ evento.titulo }} - {{evento.getDataEvento }} - {{ evento.getDescricao }}
+                        (<a href="evento/?id={{evento.id}}">Editar</a>
+                        / <a href="evento/delete/{{evento.id}}/">Excluir</a>)
+                    </div>
                 </li>
             {% endfor %}
         </ul>

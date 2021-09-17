@@ -23,6 +23,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('agenda/', views.listaEventos),
+    #path('agenda/lista/', views.listaEventoJson), Utilizar o JsonResponse para renderizar a pagina
     path('agenda/evento/', views.evento),
     path('agenda/evento/submit', views.submitEvento),
     path('agenda/evento/delete/<int:idEvento>/', views.deleteEvento),
